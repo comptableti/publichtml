@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
       email: document.getElementById("email").value,
       phone: document.getElementById("phone").value,
       message: document.getElementById("message").value,
-      hostname: window.location.hostname != "" ? window.localStorage.hostname : "unknown",
+      hostname: window.location.hostname != "" ? window.location.hostname : "unknown",
     };
 
     console.log("Form submitted:", formData);
