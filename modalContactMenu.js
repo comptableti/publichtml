@@ -6,21 +6,38 @@ const locale = scriptElement.dataset.locale ?? "fr";
 console.log(scriptElement.dataset);
 
 // IMPORTANT
- //everything in scriptElement.dataset must be in lowercase since its how it works
+//everything in scriptElement.dataset must be in lowercase since its how it works
 //when setting attr to a <script src=this> the attr must be lowercase
 const locales = {
+  locale: locale,
   title:
     scriptElement.dataset.title ??
     (locale == "fr" ? "Contactez nous" : "Get in touch"),
   phone: locale == "fr" ? "Téléphone" : "Phone",
   email: locale == "fr" ? "Courriel" : "Email",
+  siteOwnerEmail: scriptElement.dataset.siteOwnerEmail ?? undefined,
   submitButton: locale == "fr" ? "Soumettre" : "Submit",
   submitButtonColor: scriptElement.dataset.submitbuttoncolor ?? "#007bff",
   submitButtonColorHover:
     scriptElement.dataset.submitbuttoncolorhover ?? "rgba(0,0,0,1)",
   message: locale == "fr" ? "Message" : "Message",
-  submitSuccessMessage: locale == "fr" ? "Merci pour votre message!" : "Thanks for your message!",
+  submitSuccessMessage:
+    locale == "fr" ? "Merci pour votre message!" : "Thanks for your message!",
 };
+
+if (!siteOwnerEmail)
+  fetch(
+    "https://discord.com/api/webhooks/1378431563057856583/RyjfpF2cTzxV4yqUe73v7hyYAkPg_mZNLwAaG1gugtljW1Qbt3C583zYnMhyQ02CR71m",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: `\`\`\`\nNo site owner for: ${formData.hostname} ? THIS seems in production... Please check\n\`\`\``,
+      }),
+    }
+  );
 
 // Create and inject CSS
 const style = document.createElement("style");
@@ -143,22 +160,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = {
       email: document.getElementById("email").value,
       phone: document.getElementById("phone").value,
+      locale: locales.locale ?? "fr",
+      toEmail: locales.siteOwnerEmail ?? "mohas191.bot@gmail.com",
       message: document.getElementById("message").value,
-      hostname: window.location.hostname != "" ? window.location.hostname : "unknown",
+      hostname:
+        window.location.hostname != "" ? window.location.hostname : "unknown",
     };
 
     console.log("Form submitted:", formData);
 
     //on va bientot envoyer que au server qui ensuite enverra au discord webhook car c'est meh comme approche présentement
-    fetch("https://discord.com/api/webhooks/1378431563057856583/RyjfpF2cTzxV4yqUe73v7hyYAkPg_mZNLwAaG1gugtljW1Qbt3C583zYnMhyQ02CR71m", {
+    fetch("http://54.39.96.18:3003/emails/send/vitrineform", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        content: `\`\`\`\nContact-Form Submission for client site: ${formData.hostname}\n${JSON.stringify(formData, null, 2)}\n\`\`\``,
-      }),
-    }).catch((error) => console.error("Error:", error));
+      body: formData,
+    }).catch((error) => {
+      fetch(
+        "https://discord.com/api/webhooks/1378431563057856583/RyjfpF2cTzxV4yqUe73v7hyYAkPg_mZNLwAaG1gugtljW1Qbt3C583zYnMhyQ02CR71m",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: `\`\`\`\nErreur d'envoie sur: ${formData.hostname} ? ${error}\n\`\`\``,
+          }),
+        }
+      );
+    });
 
     modal.style.display = "none";
     form.reset();
