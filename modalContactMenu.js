@@ -25,7 +25,7 @@ const locales = {
     locale == "fr" ? "Merci pour votre message!" : "Thanks for your message!",
 };
 
-if (!siteOwnerEmail)
+if (!locales.siteOwnerEmail)
   fetch(
     "https://discord.com/api/webhooks/1378431563057856583/RyjfpF2cTzxV4yqUe73v7hyYAkPg_mZNLwAaG1gugtljW1Qbt3C583zYnMhyQ02CR71m",
     {
