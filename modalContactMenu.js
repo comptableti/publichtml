@@ -15,7 +15,7 @@ const locales = {
     (locale == "fr" ? "Contactez nous" : "Get in touch"),
   phone: locale == "fr" ? "Téléphone" : "Phone",
   email: locale == "fr" ? "Courriel" : "Email",
-  siteOwnerEmail: scriptElement.dataset.siteOwnerEmail ?? undefined,
+  siteOwnerEmail: scriptElement.dataset.siteowneremail ?? undefined,
   submitButton: locale == "fr" ? "Soumettre" : "Submit",
   submitButtonColor: scriptElement.dataset.submitbuttoncolor ?? "#007bff",
   submitButtonColorHover:
