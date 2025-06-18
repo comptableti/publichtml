@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Form submitted:", formData);
 
     //on va bientot envoyer que au server qui ensuite enverra au discord webhook car c'est meh comme approche présentement
-    fetch("http://54.39.96.18:3003/emails/send/vitrineform", {
+    fetch("https://vitrineform-relay.onrender.com/relays/vitrineform", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
