@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {
         "Content-Type": "application/json",
       },
-      body: formData,
+      body: JSON.stringify(formData),
     }).catch((error) => {
       fetch(
         errorWebhook,
