@@ -155,6 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (event.target == modal) modal.style.display = "none";
   });
 
+  // warm up the service
+  fetch("https://vitrineform-relay.onrender.com/")
+
   // Handle form submission
   form.onsubmit = async function (e) {
     e.preventDefault();
